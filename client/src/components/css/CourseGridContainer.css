@@ -1,0 +1,21 @@
+.CourseGridContainer{
+    /* border: 2px solid red; */
+    margin-top: 10px;
+    width: 120vh;
+    padding: 0px;
+    height: 100vh;
+    /* border-radius: 20px; */
+    
+}
+.CourseGridContainer p{
+ margin-top: 0px;
+ font-size: large;
+ font-weight: 400;
+}
+
+.CourseGridWrapper{
+ display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+gap: 10px
+}
