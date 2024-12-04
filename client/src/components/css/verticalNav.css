@@ -1,52 +1,67 @@
-.VerticalNavContainer{
-    border: 1px  rgba(255, 255, 255, 0) solid;
-
-    min-width: 220px;
+.VerticalNavContainer {
+    border: 1px rgba(255, 255, 255, 0) solid;
+    position: relative;
+    min-width: 60px; /* Collapsed width */
+    max-width: 200px; /* Expanded width */
     margin: 10px;
     border-radius: 20px;
     background-color: rgb(0, 0, 0);
-    height: 100vh;
+    height: 100vh; /* Full viewport height */
     color: white;
-    /* text-align: center; */
+    display: flex; /* Enable vertical alignment */
+    flex-direction: column; /* Align items vertically */
+    transition: all 0.3s ease-in-out; /* Smooth transition for width */
+    overflow: hidden;
+    
 }
+
 .Header {
-    /* font-weight: bold; */
-    /* margin-top: 20px; */
-    margin-top: 30px ;
-    margin-left: 20px;
+    margin-top: 20px;
+    margin-left: 10px;
     font-size: 22px;
     display: flex;
+    text-overflow: clip;
+    position: absolute;
     align-items: center;
     gap: 5px;
+    white-space: nowrap;
+}
 
-    /* border: 2px solid red; */
+.VerticalNavMenu {
+    margin-top: 20px; /* Space between header and menu */
+    flex-grow: 1; /* Allow menu to take up remaining space */
+    display: flex;
+    flex-direction: column; /* Arrange menu items vertically */
 }
-.VerticalNavMenu{
-    margin-top: 40px;
+
+.VerticalNavMenu ul {
+    list-style-type: none;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margins */
+    
 }
-.VerticalNavMenu p{ 
-    /* margin-left: 40px; */
-    /* text-align: center; */
+
+.VerticalNavMenu ul li {
+    width: 100%;
+    position: absolute;
+    margin: 10px;
+}
+
+.VerticalNavMenu a {
+    text-decoration: none;
     padding: 15px;
-    padding-left: 24px;
-    margin:0px;
     display: flex;
     align-items: center;
     gap: 10px;
-    
-    /* border: 2px solid red; */
+    color: white; /* Ensure text is visible */
+    transition: background-color 0.3s ease-in-out; /* Smooth hover */
 }
 
-.VerticalNavMenu p span{ 
-    /* margin-left: 40px; */
-    /* text-align: center; */
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    
-    /* border: 2px solid red; */
+.VerticalNavMenu a:hover {
+    background-color: rgb(35, 35, 35);
+    cursor: pointer;
 }
-.VerticalNavMenu p:hover{ 
-   background-color: rgb(35, 35, 35);
-   cursor: pointer;
+
+.VerticalNavContainer:hover {
+    min-width: 200px; /* Expands to full width on hover */
 }
