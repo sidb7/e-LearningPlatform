@@ -61,7 +61,7 @@ const refreshToken = (req: Request, res: Response) => {
             throw Error("Invalid refresh token")
         }
         const verifyRefreshToken: any = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET)
-      
+        
         const username = verifyRefreshToken.username
         const accessToken = generateAccessToken(username)
         res.status(200).send({ accessToken })

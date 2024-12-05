@@ -6,8 +6,8 @@ import { registerInputValidate } from '../validations/inputValidations';
 const authRouter = express.Router()
 
 authRouter.post("/register", validate(registerInputValidate), registerUser)
-authRouter.post("/login",loginUser)
-authRouter.post("/refresh_token",refreshToken)
+authRouter.post("/login", loginUser)
+authRouter.post("/refresh_token", refreshToken)
 
 
-export  {authRouter};
+export { authRouter };

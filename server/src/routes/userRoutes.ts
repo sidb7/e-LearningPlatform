@@ -1,9 +1,10 @@
 import app from "../../app"
 import express from 'express'
 import { userProfile } from "../controllers/userController"
+import verifyToken from "../middlewares/verifyToken"
 
 const userRouter = express.Router()
 
-userRouter.post("/profile",userProfile)
+userRouter.get("/profile", verifyToken(), userProfile)
 
-export  {userRouter}
+export { userRouter }
