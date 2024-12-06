@@ -1,23 +1,22 @@
-import logo from './logo.svg';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 import './App.css';
 import VerticalNav from './components/VerticalNav';
 import CourseGridContainer from './components/CourseGridContainer';
+import LoginPage from './components/Login';
 
 function App() {
   return (
-    < div className='App'>
-    <div className="VerticalNavComponent">
-      <VerticalNav/>
-    </div>
 
-    <div className="">
-      <CourseGridContainer/>
-      
-    </div>
+    <BrowserRouter>
+      <Routes>
+      <Route path="/login" element={<LoginPage/>} />
+      </Routes>
 
-  
 
-    </div>
+    </BrowserRouter>
+
+
   );
 }
 
