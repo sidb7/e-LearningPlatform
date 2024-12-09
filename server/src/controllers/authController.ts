@@ -34,7 +34,7 @@ const loginUser = async (req: Request, res: Response) => {
     const { username, password, email } = req.body
 
     try {
-        const userData = await User.findOne({ user_name: username, email: email })
+        const userData = await User.findOne({ email: email })
         if (!userData) {
             throw Error("User doesn't exist")
         }
