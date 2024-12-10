@@ -34,6 +34,7 @@ const loginUser = async (req: Request, res: Response) => {
     const { username, password, email } = req.body
 
     try {
+        console.log(email," ",password)
         const userData = await User.findOne({ email: email })
         if (!userData) {
             throw Error("User doesn't exist")
@@ -48,7 +49,8 @@ const loginUser = async (req: Request, res: Response) => {
         res.status(200).json({ accessToken, refreshToken })
 
     } catch (err) {
-        res.status(400).send(err.message)
+        console.log("ERROR",err.message)
+        res.status(400).json(err.message)
     }
 
 }

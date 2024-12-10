@@ -3,9 +3,11 @@ import { GiIceCube } from "react-icons/gi"
 import "../index.css"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
+import Alert from '@mui/material/Alert';
+
 function Login() {
 
-    const [username, setUsername] = useState('')
+    const [email, setemail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
     const navigate = useNavigate()
@@ -13,30 +15,36 @@ function Login() {
     const handleLogin = async (e) => {
         e.preventDefault()
         setError('')
-
+        // console.log(email,"USERNME")
         try {
             const response = await fetch("https://localhost:3001/auth/login", {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password })
+                body: JSON.stringify({ email, password })
 
             })
-            // console.log( username,"  ",password,"RESPONSE")
+            // console.log( email,"  ",password,"RESPONSE")
             if (response.ok) {
                 const data = await response.json()
                 console.log(data)
-                // localStorage.setItem('token',data.token)
+                localStorage.setItem('tokenData',JSON.stringify(data))
+                navigate("/dashboard")
             }
             else {
-                const errData = response.json()
-                setError(errData.error || "Login Failed")
+                const errData = await response.json()
+                // console.log(errData,"ERROROROR")
+                setError(errData || "Login Failed")
+                
             }
         } catch (err) {
             setError('Something went wrong. Please try again later.');
         }
     }
     return (
+     <>
+           {/* {error&& <Alert severity="error">{error}</Alert>} */}
         <div className="loginContainer flex justify-center items-center h-svh bg-gray-200">
+              
             <div className="login-box h-5/6 w-4/6 flex border rounded-2xl p-2  bg-white shadow-xl shadow-gray-500">
                 <div className="login-img  w-full    justify-center items-center ">
                     <span class="font-medium text-wrap text-7xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
@@ -56,7 +64,7 @@ function Login() {
                 </div>
                 <div className=" w-2/3 ">
                     <>
-                        <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+                        <div class="flex min-h-full flex-col justify-center px-6  lg:px-8">
                             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
                                 <GiIceCube size={50} className="mx-auto my-0  " color="purple" />
                                 <h2 class="mt-2 text-center text-2xl/9 font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">Sign in to your account</h2>
@@ -68,8 +76,8 @@ function Login() {
                                         <label for="email" class="block text-sm/6 font-medium text-gray-900">Email address</label>
                                         <div class="mt-2">
                                             <input type="email"
-                                                value={username}
-                                                onChange={(e) => setUsername(e.target.value)}
+                                                value={email}
+                                                onChange={(e) => setemail(e.target.value)}
                                                 required name="email" id="email" autocomplete="email"  class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-violet-600 sm:text-sm/6" />
                                         </div>
                                     </div>
@@ -84,7 +92,7 @@ function Login() {
                                         <div class="mt-2">
                                             <input  type="password" name="password" id="password" onChange={(e)=>{setPassword(e.target.value)}} autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-violet-600 sm:text-sm/6" />
                                         </div>
-                                        {error && <p style={{ color: 'red' }}>{error}</p>}
+                                        {error && <p style={{ color: 'red' , fontSize:"13px"}}>{error}</p>}
                                     </div>
 
                                     <div>
@@ -94,13 +102,13 @@ function Login() {
 
                                 <p class="mt-10 text-center text-sm/6 text-gray-500">
                                     Not a member?
-                                    <a href="#" class="font-semibold text-violet-600 hover:text-pink-500">Start a 14 day free trial</a>
+                                    <a href="#" class="font-semibold text-violet-600 hover:text-pink-500"> Start a 14 day free trial</a>
                                 </p>
                             </div>
                         </div></>
                 </div>
             </div>
-        </div>
+        </div>     </>
     )
 }
 
