@@ -1,8 +1,8 @@
 
 import { GiIceCube } from "react-icons/gi"
 import "../index.css"
-import { useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect, useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import Alert from '@mui/material/Alert';
 
 function Login() {
@@ -10,7 +10,12 @@ function Login() {
     const [email, setemail] = useState('')
     const [password, setPassword] = useState('')
     const [error, setError] = useState('')
+    const [successMessage,setSuccessMessage] = useState('')
     const navigate = useNavigate()
+
+    useEffect(()=>{
+        localStorage.removeItem("tokenData")
+    },[])
 
     const handleLogin = async (e) => {
         e.preventDefault()
@@ -28,12 +33,16 @@ function Login() {
                 const data = await response.json()
                 console.log(data)
                 localStorage.setItem('tokenData',JSON.stringify(data))
-                navigate("/dashboard")
+                setSuccessMessage("Logged in successfully")
+                setTimeout(()=>{
+                    navigate("/dashboard")
+                },1000)
+                
             }
             else {
                 const errData = await response.json()
                 // console.log(errData,"ERROROROR")
-                setError(errData || "Login Failed")
+                setError(errData.message || "Login Failed")
                 
             }
         } catch (err) {
@@ -66,7 +75,13 @@ function Login() {
                     <>
                         <div class="flex min-h-full flex-col justify-center px-6  lg:px-8">
                             <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-                                <GiIceCube size={50} className="mx-auto my-0  " color="purple" />
+                                {/* <GiIceCube size={50} className="mx-auto my-0  " color="purple" /> */}
+                                <a href="" class="flex justify-center">
+                                {/* <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" /> */}
+
+                                <GiIceCube size={33} color="purple"/>
+                                <span class="self-center text-lg font-bold text-black sm:text-2xl whitespace-nowrap">&nbsp;Grad<span className="text-pink-600">e</span>l</span>
+                            </a>
                                 <h2 class="mt-2 text-center text-2xl/9 font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">Sign in to your account</h2>
                             </div>
 
@@ -93,6 +108,8 @@ function Login() {
                                             <input  type="password" name="password" id="password" onChange={(e)=>{setPassword(e.target.value)}} autocomplete="current-password" required class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-violet-600 sm:text-sm/6" />
                                         </div>
                                         {error && <p style={{ color: 'red' , fontSize:"13px"}}>{error}</p>}
+                                        {successMessage && <p style={{ color: 'lightgreen' , fontSize:"13px"}}>{successMessage}</p>}
+
                                     </div>
 
                                     <div>
@@ -102,7 +119,7 @@ function Login() {
 
                                 <p class="mt-10 text-center text-sm/6 text-gray-500">
                                     Not a member?
-                                    <a href="#" class="font-semibold text-violet-600 hover:text-pink-500"> Start a 14 day free trial</a>
+                                    <Link to={"/register"} class="font-semibold text-violet-600 hover:text-pink-500"> Sign up</Link>
                                 </p>
                             </div>
                         </div></>

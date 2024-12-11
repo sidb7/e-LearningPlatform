@@ -4,9 +4,10 @@ import jwt from "jsonwebtoken"
 const verifyToken = ()=>{
     return (req:Request,res:Response,next:NextFunction)=>{
         const token = req.headers["authorization"]
-        if(!token){ res.status(403).send("Access denied")}
+        if(!token){ throw Error("Access denied")}
         const isVerified:any = jwt.verify(token.split(" ")[1],process.env.JWT_ACCESS_SECRET)
-        if(!isVerified) { res.status(400).send("Invalid token")}
+        if(!isVerified) { throw Error("Invalid token")}
+  
         req.query =  isVerified.username
         next()
     }

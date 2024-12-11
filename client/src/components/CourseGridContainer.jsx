@@ -1,19 +1,38 @@
+import { useEffect, useState } from "react";
 import CourseCards from "./CourseCards";
 import "./css/CourseGridContainer.css"
 
 
 import { Card, Carousel } from "flowbite-react";
-let ar = [1, 2, 3, 4]
+
+
+const fetchCourseData = async()=>{
+    const response = await fetch("https://localhost:3001/course/get-all-courses",{
+        method:"GET",
+        headers: { 'Content-Type': 'application/json' },
+    })
+    if(response.ok){
+        const data = await response.json()
+        console.log(data.data,"ARRAY DATA")
+        return data.data
+    }else{
+        const errData = response.json();
+        console.log(errData.message ,"ERRROR")
+    }
+}
+
+
 
 function CourseGridContainer() {
-    const array = [{ img: "https://img.freepik.com/free-psd/e-learning-template-design_23-2151081798.jpg" },
-    { img: "https://media.geeksforgeeks.org/wp-content/cdn-uploads/20200214165928/Web-Development-Course-Thumbnail.jpg" },
-    { img: "https://i.ytimg.com/vi/QAz2_3ceCvw/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLDlUcEXuef_gq3iZNC-gwVKchz3iQ" },
-    { img: "https://img-c.udemycdn.com/course/750x422/3468752_3eb1.jpg" },
-    { img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrGEviftUo6xjhcts-P__LV3IbqXZhtMvl5A&s" },
-    { img: "https://fiverr-res.cloudinary.com/images/q_auto,f_auto/gigs/323404125/original/9243f54d235e979db24dafc4080c51a1c63825c3/design-online-course-thumbnail-udemy-course-cover-image.png" },
-
-    ]
+   
+    const [courseData , setCourseData] = useState([])
+    useEffect(()=>{
+        console.log(fetchCourseData(),"FETCCHHC")
+        fetchCourseData().then((data)=>{
+            setCourseData(data)
+        })
+       
+    },[])
 
     const carouselCustomTheme = {
         "control": {
@@ -50,12 +69,12 @@ function CourseGridContainer() {
 
                     <div class="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2  gap-5 mb-4">
 
-
-                        {array.map(ele => {
+                                {console.log(courseData,"CORRRRddd")}
+                        {courseData.map(ele => {
                             return (<div class=" flex items-center justify-center h-fit rounded bg-gray-50 dark:bg-gray-800">
                                 <Card
                                     className=" min-w-md"
-                                    imgSrc={ele.img}
+                                    imgSrc={ele.thumbnails[0]}
                                     theme={cardCustomTheme}
                                 >
                                     <h5 className=" font-bold h-10 xl:overflow-visible lg:overflow-visible  md:overflow-clip   sm:overflow-clip  tracking-tight text-gray-900 dark:text-white">

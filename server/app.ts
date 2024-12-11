@@ -4,10 +4,14 @@ import dotenv from "dotenv"
 import dbConnect from './src/database/dbConnect'
 import { userRouter } from "./src/routes/userRoutes"
 import {authRouter} from './src/routes/authRoutes'
+import errorHandler from "./src/middlewares/errorHandler"
+import bodyParser from "body-parser"
+import { courseRouter } from "./src/routes/courseRoutes"
 const app = express()
 
 dotenv.config()
 app.use(express.json())
+
 app.use(cors({
     origin:"*",
     methods:['GET','POST','PUT','DELETE'],
@@ -16,11 +20,15 @@ app.use(cors({
 
 dbConnect()
 
-
+app.use(bodyParser.json());
 app.get("/", (req, res) => {
     res.send("HI FROM SERVER 3000")
 })
 app.use('/auth',authRouter)
 app.use('/user',userRouter)
+app.use('/course',courseRouter)
 
+
+
+app.use(errorHandler)
 export default app

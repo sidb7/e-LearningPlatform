@@ -7,8 +7,8 @@ const validate = (schema:joi.ObjectSchema) :any =>{
 
         if(error){
             return res.status(400).json({
-                message: "Validation error",
-                details: error.details.map((detail)=>detail.message)
+                message:error.details[0].message,
+                details: error.details[0].message
             })
         }
         next()

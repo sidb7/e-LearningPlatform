@@ -3,8 +3,9 @@ import bcrypt from 'bcrypt'
 import { User } from "../database/models/userModel"
 import jwt from "jsonwebtoken"
 import { generateAccessToken, generateRefreshToken } from "../utlis/tokens"
-const registerUser = async (req: Request, res: Response) => {
-    try {
+import catchAsync from "../utlis/catchAsync"
+const registerUser = catchAsync(async (req: Request, res: Response) => {
+  
         const { username, email, password } = req.body
 
 
@@ -12,8 +13,12 @@ const registerUser = async (req: Request, res: Response) => {
             throw new Error("All fields are required")
         }
         const existingUser = await User.findOne({ email })
+        const existingUsername = await User.findOne({ username })
         if (existingUser) {
             throw new Error("User already exists")
+        }
+        if (existingUsername) {
+            throw new Error("Username is already taken")
         }
         const hashedPassword = await bcrypt.hash(password, 8)
         const newUser = new User({
@@ -22,18 +27,14 @@ const registerUser = async (req: Request, res: Response) => {
             password: hashedPassword,
         });
         await newUser.save()
-        res.send(`${username} is registered successfully`)
-    } catch (err) {
-        console.log("Error registering the user", err.message)
-        res.status(400).json({ "message": err.message })
-    }
+        res.json({status:true,message:`${username} registered successfully`})
+   
 }
+);
 
+const loginUser = catchAsync( async (req: Request, res: Response) => {
+    const {password, email } = req.body
 
-const loginUser = async (req: Request, res: Response) => {
-    const { username, password, email } = req.body
-
-    try {
         console.log(email," ",password)
         const userData = await User.findOne({ email: email })
         if (!userData) {
@@ -42,18 +43,16 @@ const loginUser = async (req: Request, res: Response) => {
         const isPasswordValid = await bcrypt.compare(password, userData.password)
         console.log(isPasswordValid, "VERIFIED", password)
         if (!isPasswordValid) {
-            throw Error("Invalid Credentials")
+            throw Error("Email / password entered is incorrect.")
         }
+        const username = userData.user_name
         const accessToken = generateAccessToken(username)
         const refreshToken = generateRefreshToken(username)
         res.status(200).json({ accessToken, refreshToken })
 
-    } catch (err) {
-        console.log("ERROR",err.message)
-        res.status(400).json(err.message)
-    }
+    
 
-}
+})
 
 
 const refreshToken = (req: Request, res: Response) => {
