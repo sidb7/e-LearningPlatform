@@ -17,7 +17,7 @@ function VerticalNav() {
         <>
 
 
-            <nav class="fixed shadow-md shadow-gray-400 top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <nav class="fixed shadow-sm shadow-black-200 top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <div class="px-3 py-3 lg:px-5 lg:pl-3">
                     <div class="flex items-center justify-between">
                         <div class="flex items-center justify-start rtl:justify-end ">
@@ -31,7 +31,7 @@ function VerticalNav() {
                                 {/* <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" /> */}
 
                                 <GiIceCube size={33} className="text-violet-600" />
-                                <span class="self-center text-lg font-bold text-black sm:text-2xl whitespace-nowrap">&nbsp;Grad<span className="text-violet-600">e</span>l</span>
+                                <span class="self-center text-lg font-bold text-black sm:text-2xl whitespace-nowrap font-serif">&nbsp;Grad<span className="text-violet-600">e</span>l</span>
                             </a>
                         </div>
                         <div class="flex items-center">

@@ -52,22 +52,22 @@ function Login() {
             <div className="loginContainer flex justify-center items-center h-svh bg-gray-200">
 
                 <div className="login-box h-5/6 w-4/6 flex border rounded-2xl p-2  bg-white shadow-xl shadow-gray-500">
-                    <div className="login-img  w-full    justify-center items-center ">
-                        <span class="font-medium text-wrap text-7xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
-                            Knock, knock!
-                        </span>
-                        <p class="font-medium text-wrap text-9xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
+                <div className="login-img px-4 my-auto w-full    justify-center items-center ">
+                    <span class="font-medium text-wrap text-7xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
+                        Knock, knock!
+                    </span>
+                    <p class="font-medium text-wrap text-9xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
 
-                            Who’s there?
+                        Who’s there?
 
-                        </p>
-                        <p class="font-medium text-wrap text-6xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
+                    </p>
+                    <p class="font-medium text-wrap text-6xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
 
-                            A whole galaxy of possibilities!
+                        A whole galaxy of possibilities!
 
-                        </p>
+                    </p>
 
-                    </div>
+                </div>
                     <div className=" w-2/3 ">
                         <>
                             <div class="flex min-h-full flex-col justify-center px-6  lg:px-8">
