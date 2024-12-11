@@ -6,8 +6,8 @@ import path from 'path'
 dotenv.config()
 const port  = process.env.PORT
 
-const keyPath = path.join(__dirname,"cert",'private.pem')
-const certPath = path.join(__dirname,"cert","certificate.pem")
+const keyPath = path.join(__dirname,"src/cert",'key.pem')
+const certPath = path.join(__dirname,"src/cert","cert.pem")
 
 const options = {
     key: fs.readFileSync(keyPath),

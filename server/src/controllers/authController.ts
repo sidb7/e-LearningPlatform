@@ -46,6 +46,7 @@ const loginUser = catchAsync( async (req: Request, res: Response) => {
             throw Error("Email / password entered is incorrect.")
         }
         const username = userData.user_name
+        console.log(username,"USERNAME")
         const accessToken = generateAccessToken(username)
         const refreshToken = generateRefreshToken(username)
         res.status(200).json({ accessToken, refreshToken })
