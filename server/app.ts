@@ -7,6 +7,7 @@ import {authRouter} from './src/routes/authRoutes'
 import errorHandler from "./src/middlewares/errorHandler"
 import bodyParser from "body-parser"
 import { courseRouter } from "./src/routes/courseRoutes"
+import { paymentRouter } from "./src/routes/paymentRoutes"
 const app = express()
 
 dotenv.config()
@@ -27,6 +28,7 @@ app.get("/", (req, res) => {
 app.use('/auth',authRouter)
 app.use('/user',userRouter)
 app.use('/course',courseRouter)
+app.use("/order",paymentRouter)
 
 
 

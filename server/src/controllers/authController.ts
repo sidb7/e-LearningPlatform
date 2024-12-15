@@ -45,10 +45,11 @@ const loginUser = catchAsync( async (req: Request, res: Response) => {
         if (!isPasswordValid) {
             throw Error("Email / password entered is incorrect.")
         }
-        const username = userData.user_name
-        console.log(username,"USERNAME")
-        const accessToken = generateAccessToken(username)
-        const refreshToken = generateRefreshToken(username)
+        console.log(userData,"USERDADA")
+        const user_id = userData._id.toString()
+       
+        const accessToken = generateAccessToken(user_id);
+        const refreshToken = generateRefreshToken(user_id);
         res.status(200).json({ accessToken, refreshToken })
 
     
