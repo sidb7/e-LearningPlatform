@@ -1,9 +1,11 @@
 
 import { GiIceCube } from "react-icons/gi"
 import "../index.css"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import Alert from '@mui/material/Alert';
+import { ContextState } from "../ContextProvider";
+import VerticalNav from "./VerticalNav";
 
 function Login() {
 
@@ -12,7 +14,7 @@ function Login() {
     const [error, setError] = useState('')
     const [successMessage,setSuccessMessage] = useState('')
     const navigate = useNavigate()
-
+    const {isAuthenticated,logout,login} = useContext(ContextState)
     useEffect(()=>{
         localStorage.removeItem("tokenData")
     },[])
@@ -34,6 +36,7 @@ function Login() {
                 console.log(data)
                 localStorage.setItem('tokenData',JSON.stringify(data))
                 setSuccessMessage("Logged in successfully")
+                login()
                 setTimeout(()=>{
                     navigate("/dashboard")
                 },1000)
@@ -52,10 +55,12 @@ function Login() {
     return (
      <>
            {/* {error&& <Alert severity="error">{error}</Alert>} */}
-        <div className="loginContainer flex justify-center items-center h-svh bg-gray-200">
+           <VerticalNav/>
+           {console.log(isAuthenticated,"AUUTHTH")}
+        <div className=" flex justify-center items-center h-svh px-40">
               
-            <div className="login-box h-5/6 w-4/6 flex border rounded-2xl p-2  bg-white shadow-xl shadow-gray-500">
-                <div className="login-img px-4 my-auto w-full    justify-center items-center ">
+         
+                <div className=" px-4 my-auto w-full    justify-center items-center ">
                     <span class="font-medium text-wrap text-7xl bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">
                         Knock, knock!
                     </span>
@@ -78,9 +83,7 @@ function Login() {
                                 {/* <GiIceCube size={50} className="mx-auto my-0  " color="purple" /> */}
                                 <a href="" class="flex justify-center">
                                 {/* <img src="https://flowbite.com/docs/images/logo.svg" class="h-8 me-3" alt="FlowBite Logo" /> */}
-
-                                <GiIceCube size={33} color="purple"/>
-                                <span class="self-center text-lg font-bold text-black sm:text-2xl whitespace-nowrap">&nbsp;Grad<span className="text-pink-600">e</span>l</span>
+              
                             </a>
                                 <h2 class="mt-2 text-center text-2xl/9 font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-violet-500 to-pink-500 ">Sign in to your account</h2>
                             </div>
@@ -124,7 +127,7 @@ function Login() {
                             </div>
                         </div></>
                 </div>
-            </div>
+
         </div>     </>
     )
 }

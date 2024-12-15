@@ -8,22 +8,23 @@ import ProtectedRoute from "./protectedRoute";
 import Register from "./components/Register";
 
 import React, { useState } from 'react';
-import CoursePuchasePage from "./components/CoursePurchase";
+import LandingPage from "./components/LandingPage";
+import CheckoutCart from "./components/CheckoutCart";
 
 
 function App() {
 
-  const [shopCart,setShopCart] = useState('')
-
+ 
+  
   return (
 
     <BrowserRouter>
       <Routes>
-      <Route path="/" element={<Navigate to={"/login"}></Navigate>} />
+      <Route path="/" element={<LandingPage/>} />
       <Route path="/login" element={<LoginPage/>} />
       <Route path="/register" element={<Register/>} />
-      <Route path="/dashboard" element={<ProtectedRoute><Dashboard shopCart={shopCart} setShopCart = {setShopCart} /></ProtectedRoute>} />
-      <Route path="/purchase" element={<CoursePuchasePage shopCart={shopCart}/>} />
+      <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+      <Route path="/purchase" element={<CheckoutCart/>} />
       </Routes>
 
 

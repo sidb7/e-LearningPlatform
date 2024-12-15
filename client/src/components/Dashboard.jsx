@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import CourseGridContainer from "./CourseGridContainer";
 import VerticalNav from "./VerticalNav";
 import { useNavigate } from 'react-router-dom';
+import { ContextState } from "../ContextProvider";
 const Dashboard = () => {
     const [profileData, setProfileData] = useState(null);
     const [error, setError] = useState(null);
     const navigate = useNavigate()
+    const {logout} = useContext(ContextState)
     // Token handler to fetch user profile
     const tokenHandler = async () => {
         const token = JSON.parse(localStorage.getItem("tokenData"));
@@ -17,6 +19,7 @@ const Dashboard = () => {
 
             if (!response.ok) {
                 navigate("/login")
+                logout()
                 throw new Error("Failed to fetch profile");
             }
 
