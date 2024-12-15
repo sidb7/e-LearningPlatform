@@ -8,7 +8,7 @@ module.exports = {
   plugins: [
 
     flowbite.plugin(),
-    require("@tailwindcss/line-clamp"),
+    
     function({addUtilities}){
       const newUtilities = {
         ".no-scrollbar::-webkit-scrollbar":{

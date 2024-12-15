@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import React from "react";
 import {
   Popover,
@@ -11,14 +11,48 @@ import {
 import VerticalNav from "./VerticalNav";
 import { ContextState } from "../ContextProvider";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import RazorpayPayment from "./RazorpayComponent";
 const CheckoutCart = () => {
   const [openPopover, setOpenPopover] = React.useState(false);
-
+  const navigate = useNavigate();
   const triggers = {
     onMouseEnter: () => setOpenPopover(true),
     onMouseLeave: () => setOpenPopover(false),
   };
   const { shoppingCartData } = useContext(ContextState);
+
+  const handleShoppingCart = async (token) => {
+    console.log(shoppingCartData, "SHSHSHSHSHS");
+    const response = await fetch("https://localhost:3001/order/shopping-cart", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token?.accessToken}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify( shoppingCartData.map((ele)=>ele._id) ),
+    });
+    if (!response.ok) {
+      navigate("/login");
+    }
+    return response.json()
+  };
+  const [totalBill,setTotalBill] =useState()
+
+  
+  useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("tokenData"));
+    const response = handleShoppingCart(token);
+    response.then((res)=>{
+      setTotalBill(res.cartTotal)
+    })
+  }, []);
+
+
+  const handleOrder =()=>{
+
+  }
+
   return (
     <div>
       <div className="mb-10">
@@ -32,8 +66,6 @@ const CheckoutCart = () => {
 
           <div class="mt-6 sm:mt-8 md:gap-6 lg:flex lg:items-start xl:gap-8">
             <div class="mx-auto w-full flex-none lg:max-w-2xl xl:max-w-4xl">
-              {console.log(shoppingCartData, "SHOP{{{{")}
-
               {!shoppingCartData.length && (
                 <div className=" flex justify-center text-lg">
                   <div className="text-center">
@@ -62,7 +94,7 @@ const CheckoutCart = () => {
                           <div class="flex items-center justify-between md:order-3 md:justify-end">
                             <div class="text-end md:order-4 md:w-32">
                               <p class="text-base font-bold text-gray-900 dark:text-white">
-                                Rs: {ele.price}
+                                Rs:&nbsp;{ ele.price}
                               </p>
                             </div>
                           </div>
@@ -455,45 +487,14 @@ const CheckoutCart = () => {
                       Total
                     </dt>
                     <dd class="text-base font-bold text-gray-900 dark:text-white">
-                      $8,191.00
+                      Rs:&nbsp;{totalBill}
                     </dd>
                   </dl>
                 </div>
 
-                <a
-                  href="#"
-                  class="flex w-full items-center justify-center rounded-lg bg-primary-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                >
-                  Proceed to Checkout
-                </a>
 
-                <div class="flex items-center justify-center gap-2">
-                  <span class="text-sm font-normal text-gray-500 dark:text-gray-400">
-                    {" "}
-                    or{" "}
-                  </span>
-                  <a
-                    href="#"
-                    title=""
-                    class="inline-flex items-center gap-2 text-sm font-medium text-primary-700 underline hover:no-underline dark:text-primary-500"
-                  >
-                    Continue Shopping
-                    <svg
-                      class="h-5 w-5"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        stroke="currentColor"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        stroke-width="2"
-                        d="M19 12H5m14 0-4 4m4-4-4-4"
-                      />
-                    </svg>
-                  </a>
+                <div class="flex items-center justify-center w-full">
+                <RazorpayPayment totalBill = {totalBill} />
                 </div>
               </div>
 

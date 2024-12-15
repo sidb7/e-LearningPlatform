@@ -1,14 +1,15 @@
 import express from "express";
-import { createRazorpayOrder, verifyRazorpayPayment } from "../controllers/paymentController";
+import { createRazorpayOrder, shoppingCart, verifyRazorpayPayment } from "../controllers/paymentController";
 import verifyToken from "../middlewares/verifyToken";
 
 
 
 const paymentRouter = express.Router()
 
+paymentRouter.post("/shopping-cart",verifyToken(),shoppingCart)
+paymentRouter.post("/create-order",createRazorpayOrder)
+paymentRouter.post("/verify-payment",verifyRazorpayPayment)
 
-paymentRouter.post("/create-order",verifyToken(),createRazorpayOrder)
-paymentRouter.post("/verify-payment",verifyToken(),verifyRazorpayPayment)
 
 
 export {paymentRouter};
