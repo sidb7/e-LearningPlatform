@@ -13,6 +13,7 @@ import { ContextState } from "../ContextProvider";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import RazorpayPayment from "./RazorpayComponent";
+import ProtectedRoute from "../protectedRoute";
 const CheckoutCart = () => {
   const [openPopover, setOpenPopover] = React.useState(false);
   const navigate = useNavigate();
@@ -30,28 +31,24 @@ const CheckoutCart = () => {
         Authorization: `Bearer ${token?.accessToken}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify( shoppingCartData.map((ele)=>ele._id) ),
+      body: JSON.stringify(shoppingCartData.map((ele) => ele._id)),
     });
     if (!response.ok) {
       navigate("/login");
     }
-    return response.json()
+    return response.json();
   };
-  const [totalBill,setTotalBill] =useState()
+  const [totalBill, setTotalBill] = useState();
 
-  
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("tokenData"));
     const response = handleShoppingCart(token);
-    response.then((res)=>{
-      setTotalBill(res.cartTotal)
-    })
+    response.then((res) => {
+      setTotalBill(res.cartTotal);
+    });
   }, []);
 
-
-  const handleOrder =()=>{
-
-  }
+  const handleOrder = () => {};
 
   return (
     <div>
@@ -94,7 +91,7 @@ const CheckoutCart = () => {
                           <div class="flex items-center justify-between md:order-3 md:justify-end">
                             <div class="text-end md:order-4 md:w-32">
                               <p class="text-base font-bold text-gray-900 dark:text-white">
-                                Rs:&nbsp;{ ele.price}
+                                Rs:&nbsp;{ele.price}
                               </p>
                             </div>
                           </div>
@@ -492,9 +489,10 @@ const CheckoutCart = () => {
                   </dl>
                 </div>
 
-
                 <div class="flex items-center justify-center w-full">
-                <RazorpayPayment totalBill = {totalBill} />
+                  
+                    <RazorpayPayment totalBill={totalBill} />
+                  
                 </div>
               </div>
 

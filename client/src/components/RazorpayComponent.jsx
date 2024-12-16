@@ -1,7 +1,8 @@
 import { Button } from "flowbite-react";
 import React from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
-const RazorpayPayment = ({totalBill}) => {
+const RazorpayPayment = ({ totalBill }) => {
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       const script = document.createElement("script");
@@ -12,8 +13,19 @@ const RazorpayPayment = ({totalBill}) => {
     });
   };
 
+  const navigate = useNavigate(); // Hook for programmatic navigation
+  const location = useLocation(); // Get current location to save for redirection
+
   const handlePayment = async (totalBill) => {
     const isScriptLoaded = await loadRazorpayScript();
+    const token = localStorage.getItem("tokenData");
+    console.log(token, "TOKEN DATA");
+
+    if (!token) {
+      // Navigate to login page if token is missing
+      navigate("/login", { state: { from: location}, replace: true });
+      return;
+    }
 
     if (!isScriptLoaded) {
       alert("Razorpay SDK failed to load. Are you online?");
@@ -28,7 +40,7 @@ const RazorpayPayment = ({totalBill}) => {
       },
       body: JSON.stringify({
         amount: totalBill,
-        currency: "INR"
+        currency: "INR",
       }),
     });
 
@@ -92,8 +104,8 @@ const RazorpayPayment = ({totalBill}) => {
   return (
     <div className="flex w-full">
       <button
-        onClick={()=>handlePayment(totalBill)}
-        className="bg-violet-500 hover:bg-violet-600 rounded-none w-full  font-semibold p-1.5 text-white"
+        onClick={() => handlePayment(totalBill)}
+        className="bg-violet-500 hover:bg-violet-600 rounded-none w-full font-semibold p-1.5 text-white"
       >
         CHECKOUT
       </button>

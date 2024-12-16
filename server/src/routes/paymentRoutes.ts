@@ -6,7 +6,7 @@ import verifyToken from "../middlewares/verifyToken";
 
 const paymentRouter = express.Router()
 
-paymentRouter.post("/shopping-cart",verifyToken(),shoppingCart)
+paymentRouter.post("/shopping-cart",shoppingCart)
 paymentRouter.post("/create-order",createRazorpayOrder)
 paymentRouter.post("/verify-payment",verifyRazorpayPayment)
 

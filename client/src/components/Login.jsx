@@ -2,7 +2,7 @@
 import { GiIceCube } from "react-icons/gi"
 import "../index.css"
 import { useContext, useEffect, useState } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate } from "react-router-dom"
 import Alert from '@mui/material/Alert';
 import { ContextState } from "../ContextProvider";
 import VerticalNav from "./VerticalNav";
@@ -15,8 +15,11 @@ function Login() {
     const [successMessage,setSuccessMessage] = useState('')
     const navigate = useNavigate()
     const {isAuthenticated,logout,login} = useContext(ContextState)
+    const location = useLocation()
+    const from = location?.state?.from?.pathname || "/dashboard";
     useEffect(()=>{
         localStorage.removeItem("tokenData")
+        console.log("OCALALALA",location)
     },[])
 
     const handleLogin = async (e) => {
@@ -38,7 +41,8 @@ function Login() {
                 setSuccessMessage("Logged in successfully")
                 login()
                 setTimeout(()=>{
-                    navigate("/dashboard")
+                    console.log(from,"LOCATION")
+                    navigate(from,{replace:true})
                 },1000)
                 
             }
